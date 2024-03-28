@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inkwel_blog_app/core/theme/app_palette.dart';
+import 'package:inkwel_blog_app/features/auth/presentation/pages/signup_page.dart';
 import 'package:inkwel_blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:inkwel_blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
 
 class LoginPage extends StatefulWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      );
   const LoginPage({super.key});
 
   @override
@@ -48,21 +52,27 @@ class _LoginPageState extends State<LoginPage> {
                 isObsecureText: true,
               ),
               const SizedBox(height: 20),
-              const AuthGradientButton(),
+              const AuthGradientButton(buttonText: 'Sign In'),
               const SizedBox(height: 20),
-              RichText(
-                text: TextSpan(
-                  text: 'Don\'t have an account? ',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: [
-                    TextSpan(
-                      text: 'Sign Up',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: AppPallete.gradient2,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, SignUpPage.route());
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: [
+                      TextSpan(
+                        text: 'Sign Up',
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: AppPallete.gradient2,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
