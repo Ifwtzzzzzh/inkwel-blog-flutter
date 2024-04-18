@@ -18,6 +18,12 @@ class BlogEditor extends StatelessWidget {
         hintText: hintText,
       ),
       maxLength: null,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '$hintText is missing!';
+        }
+        return null;
+      },
     );
   }
 }
