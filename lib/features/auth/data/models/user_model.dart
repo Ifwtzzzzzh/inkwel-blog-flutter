@@ -1,7 +1,11 @@
 import 'package:inkwel_blog_app/core/common/entities/user.dart';
 
 class UserModel extends User {
-  UserModel({required super.id, required super.email, required super.name});
+  UserModel({
+    required super.id,
+    required super.email,
+    required super.name,
+  });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
