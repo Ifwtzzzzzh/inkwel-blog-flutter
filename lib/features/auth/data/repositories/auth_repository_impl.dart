@@ -2,17 +2,33 @@ import 'package:fpdart/fpdart.dart';
 import 'package:inkwel_blog_app/core/common/entities/user.dart';
 import 'package:inkwel_blog_app/core/error/exception.dart';
 import 'package:inkwel_blog_app/core/error/failures.dart';
+import 'package:inkwel_blog_app/core/network/connection_checker.dart';
 import 'package:inkwel_blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:inkwel_blog_app/features/auth/data/models/user_model.dart';
 import 'package:inkwel_blog_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  const AuthRepositoryImpl(this.remoteDataSource);
+  final ConncectionChecker conncectionChecker;
+  const AuthRepositoryImpl(this.remoteDataSource, this.conncectionChecker);
 
   @override
   Future<Either<Failure, User>> currentUser() async {
     try {
+      if (!await (conncectionChecker.isConnected)) {
+        final session = remoteDataSource.currentUserSession;
+        if (session == null) {
+          return left(Failure('User not logged in!'));
+        }
+        return right(
+          UserModel(
+            id: session.user.id,
+            email: session.user.email ?? '',
+            name: '',
+          ),
+        );
+      }
       final user = await remoteDataSource.getCurrentUserData();
       if (user == null) {
         return left(Failure('User not logged in!'));
@@ -53,6 +69,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
     try {
+      if (!await (conncectionChecker.isConnected)) {
+        return left(Failure('No internet connection!'));
+      }
       final user = await fn();
       return right(user);
     } on sb.AuthException catch (e) {
