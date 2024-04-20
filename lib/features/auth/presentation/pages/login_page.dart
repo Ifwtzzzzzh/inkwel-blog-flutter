@@ -7,6 +7,7 @@ import 'package:inkwel_blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:inkwel_blog_app/features/auth/presentation/pages/signup_page.dart';
 import 'package:inkwel_blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:inkwel_blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:inkwel_blog_app/features/blog/presentation/pages/blog_page.dart';
 
 class LoginPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -39,6 +40,12 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
+            } else if (state is AuthSuccess) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                BlogPage.route(),
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {

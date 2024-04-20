@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inkwel_blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:inkwel_blog_app/core/common/widgets/loader.dart';
+import 'package:inkwel_blog_app/core/constants/constants.dart';
 import 'package:inkwel_blog_app/core/theme/app_palette.dart';
 import 'package:inkwel_blog_app/core/utils/pick_image.dart';
 import 'package:inkwel_blog_app/core/utils/show_snackbar.dart';
@@ -144,12 +145,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: [
-                          'Technology',
-                          'Business',
-                          'Programming',
-                          'Entertainment',
-                        ]
+                        children: Constatns.topics
                             .map(
                               (e) => Padding(
                                 padding: const EdgeInsets.all(16.0),

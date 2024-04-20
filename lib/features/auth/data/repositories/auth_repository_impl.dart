@@ -1,12 +1,12 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:inkwel_blog_app/core/common/entities/user.dart';
+import 'package:inkwel_blog_app/core/constants/constants.dart';
 import 'package:inkwel_blog_app/core/error/exception.dart';
 import 'package:inkwel_blog_app/core/error/failures.dart';
 import 'package:inkwel_blog_app/core/network/connection_checker.dart';
 import 'package:inkwel_blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:inkwel_blog_app/features/auth/data/models/user_model.dart';
 import 'package:inkwel_blog_app/features/auth/domain/repository/auth_repository.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -70,12 +70,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
     try {
       if (!await (conncectionChecker.isConnected)) {
-        return left(Failure('No internet connection!'));
+        return left(Failure(Constatns.noConnectionErrorMessage));
       }
       final user = await fn();
       return right(user);
-    } on sb.AuthException catch (e) {
-      return left(Failure(e.message));
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
