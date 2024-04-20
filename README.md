@@ -1,4 +1,4 @@
-# Inkwel - Blog App
+# 📒 Inkwel - Blog App
 
 Inkwel is more than just a blogging platform; it's a haven for passionate writers and aspiring storytellers.  Imagine a space where creativity meets comfort, and crafting captivating content becomes a joy. Inkwel offers that and so much more.
 
